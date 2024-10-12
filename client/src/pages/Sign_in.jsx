@@ -6,7 +6,6 @@ import google1 from "../assets/google-1.png";
 import twitter1 from "../assets/twitter-1.png";
 import { Link } from "react-router-dom";
 
-
 export default function Sign_in() {
   const navigate = useNavigate();
   return (
@@ -49,10 +48,10 @@ export default function Sign_in() {
                 Forgot Password?
               </a>
             </div>
-            <Link to='/home'>
-            <Button className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 w-full text-white py-4 rounded-xl mt-6 text-xl font-bold">
-              Sign In
-            </Button>
+            <Link to="/home">
+              <Button className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 w-full text-white py-4 rounded-xl mt-6 text-xl font-bold">
+                Sign In
+              </Button>
             </Link>
           </div>
         </div>
@@ -62,10 +61,12 @@ export default function Sign_in() {
               Welcome To Login
             </h1>
             <p className="text-white text-2xl mb-6">Don’t have an account?</p>
-            <Button className="border-white bg-transparent text-white py-4 px-8
-              rounded-full font-bold text-xl mx-auto block" onClick=
-              {() => navigate("/signup")}>
-              Sign Up 
+            <Button
+              className="border-white bg-transparent text-white py-4 px-8
+              rounded-full font-bold text-xl mx-auto block"
+              onClick={() => navigate("/signup")}
+            >
+              Sign Up
             </Button>
           </div>
         </div>
