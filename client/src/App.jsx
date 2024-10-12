@@ -1,7 +1,23 @@
 import React from 'react'
-
+import { BrowserRouter,Routes,Route } from 'react-router-dom'
+import Splash_screen from './pages/Splash_screen'
+import Home from './pages/Home'
+import Sign_in from './pages/Sign_in'
+import Sign_up from './pages/Sign_up'
 export default function App() {
   return (
-    <h1 className='text-3xl text-red-700'>App</h1>
+    <BrowserRouter>
+      <Routes>
+
+        <Route path='/' element={<Splash_screen />} />
+        <Route path='/home' element={<Home />} />
+        <Route path='/signin' element={<Sign_in />} />
+        <Route path='/signup' element={<Sign_up />} />
+        
+      </Routes>
+
+
+
+   </BrowserRouter>
   )
 }
