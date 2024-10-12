@@ -1,4 +1,12 @@
 import express from 'express'
+import mongoose from 'mongoose'
+
+mongoose.connect('mongodb+srv://safeer:7989@cook-with-shaki.btw6x.mongodb.net/cook-with-shaki?retryWrites=true&w=majority&appName=cook-with-shaki'
+    
+)
+.then(() => {
+    console.log('MongoDb is connected')
+})
 
 const app = express()
 
