@@ -11,7 +11,7 @@ import logo from "../assets/logo.png";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
       {/* App Name and Logo */}
       <div className="flex items-center justify-center py-8">
         <img
@@ -27,7 +27,9 @@ export default function Home() {
       {/* Popular Section */}
       <div className="mt-10 px-20">
         <div className="flex justify-between items-center">
-          <h2 className="text-3xl font-semibold">Popular Section</h2>
+          <h2 className="text-3xl font-semibold dark:text-white">
+            Popular Section
+          </h2>
           <button className="flex items-center font-semibold bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 bg-clip-text text-transparent">
             <span className="mr-1">Explore More</span>
             <svg
@@ -46,54 +48,22 @@ export default function Home() {
           </button>
         </div>
         <div className="grid grid-cols-6 gap-4 mt-4">
-          <div className="relative w-full h-40 bg-gray-100 rounded-lg overflow-hidden">
-            <img
-              src={popularDish1}
-              alt="Popular Dish 1"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-          <div className="relative w-full h-40 bg-gray-100 rounded-lg overflow-hidden">
-            <img
-              src={popularDish2}
-              alt="Popular Dish 2"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-          <div className="relative w-full h-40 bg-gray-100 rounded-lg overflow-hidden">
-            <img
-              src={popularDish1}
-              alt="Popular Dish 3"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-          <div className="relative w-full h-40 bg-gray-100 rounded-lg overflow-hidden">
-            <img
-              src={popularDish2}
-              alt="Popular Dish 4"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-          <div className="relative w-full h-40 bg-gray-100 rounded-lg overflow-hidden">
-            <img
-              src={popularDish1}
-              alt="Popular Dish 5"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-          <div className="relative w-full h-40 bg-gray-100 rounded-lg overflow-hidden">
-            <img
-              src={popularDish2}
-              alt="Popular Dish 6"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
+          {[popularDish1, popularDish2, popularDish1, popularDish2, popularDish1, popularDish2].map((dish, index) => (
+            <div key={index} className="relative w-full h-40 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+              <img
+                src={dish}
+                alt={`Popular Dish ${index + 1}`}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </div>
+          ))}
         </div>
       </div>
+
       {/* Namma Kerala Section */}
       <div className="mt-10 px-20">
         <div className="flex justify-between items-center w-full">
-          <h2 className="text-3xl font-semibold">Namma Kerala</h2>
+          <h2 className="text-3xl font-semibold dark:text-white">Namma Kerala</h2>
           <button className="flex items-center font-semibold bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 bg-clip-text text-transparent">
             <span className="mr-1">Explore More</span>
             <svg
@@ -112,112 +82,41 @@ export default function Home() {
           </button>
         </div>
         <div className="grid grid-cols-6 gap-4 mt-4">
-          <div className="relative w-full h-40 bg-gray-100 rounded-lg overflow-hidden">
-            <img
-              src={keralaDish1}
-              alt="Kerala Dish 1"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-          <div className="relative w-full h-40 bg-gray-100 rounded-lg overflow-hidden">
-            <img
-              src={keralaDish2}
-              alt="Kerala Dish 2"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-          <div className="relative w-full h-40 bg-gray-100 rounded-lg overflow-hidden">
-            <img
-              src={keralaDish1}
-              alt="Kerala Dish 3"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-          <div className="relative w-full h-40 bg-gray-100 rounded-lg overflow-hidden">
-            <img
-              src={keralaDish2}
-              alt="Kerala Dish 4"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-          <div className="relative w-full h-40 bg-gray-100 rounded-lg overflow-hidden">
-            <img
-              src={keralaDish1}
-              alt="Kerala Dish 5"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-          <div className="relative w-full h-40 bg-gray-100 rounded-lg overflow-hidden">
-            <img
-              src={keralaDish2}
-              alt="Kerala Dish 6"
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
+          {[keralaDish1, keralaDish2, keralaDish1, keralaDish2, keralaDish1, keralaDish2].map((dish, index) => (
+            <div key={index} className="relative w-full h-40 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+              <img
+                src={dish}
+                alt={`Kerala Dish ${index + 1}`}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Cuisines Section */}
       <div className="mt-10 px-20">
-        <h2 className="text-3xl font-semibold">Cuisines</h2>
+        <h2 className="text-3xl font-semibold dark:text-white">Cuisines</h2>
         <div className="grid grid-cols-6 gap-4 mt-4">
-          <div className="flex flex-col items-center">
-            <img
-              className="w-[138px] h-[138px] rounded-full object-cover"
-              src={popularDish1}
-              alt="Cuisine 1"
-            />
-            <div className="text-lg mt-2">Indian</div>
-          </div>
-          <div className="flex flex-col items-center">
-            <img
-              className="w-[138px] h-[138px] rounded-full object-cover"
-              src={popularDish1}
-              alt="Cuisine 2"
-            />
-            <div className="text-lg mt-2">Chinese</div>
-          </div>
-          <div className="flex flex-col items-center">
-            <img
-              className="w-[138px] h-[138px] rounded-full object-cover"
-              src={popularDish1}
-              alt="Cuisine 3"
-            />
-            <div className="text-lg mt-2">Asian</div>
-          </div>
-          <div className="flex flex-col items-center">
-            <img
-              className="w-[138px] h-[138px] rounded-full object-cover"
-              src={popularDish1}
-              alt="Cuisine 4"
-            />
-            <div className="text-lg mt-2">American</div>
-          </div>
-          <div className="flex flex-col items-center">
-            <img
-              className="w-[138px] h-[138px] rounded-full object-cover"
-              src={popularDish1}
-              alt="Cuisine 5"
-            />
-            <div className="text-lg mt-2">Mexican</div>
-          </div>
-          <div className="flex flex-col items-center">
-            <img
-              className="w-[138px] h-[138px] rounded-full object-cover"
-              src={popularDish1}
-              alt="Cuisine 6"
-            />
-            <div className="text-lg mt-2">Thai</div>
-          </div>
+          {['Indian', 'Chinese', 'Asian', 'American', 'Mexican', 'Thai'].map((cuisine, index) => (
+            <div key={index} className="flex flex-col items-center">
+              <img
+                className="w-[138px] h-[138px] rounded-full object-cover"
+                src={popularDish1}
+                alt={`Cuisine ${index + 1}`}
+              />
+              <div className="text-lg mt-2 dark:text-white">{cuisine}</div>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Bottom Navigation Section */}
-      <div className=" w-full bg-white border-t-2 border-black mt-10 px-40">
+      <div className="w-full bg-white dark:bg-gray-800 border-t-2 border-black dark:border-gray-600 mt-10 px-40">
         <div className="flex justify-between items-center px-10 py-5">
           <div className="flex flex-col items-center">
             <img className="w-[65px] h-[65px]" src={ellipse11} alt="Home" />
-            <div className="text-lg">Home</div>
+            <div className="text-lg dark:text-white">Home</div>
           </div>
 
           <div className="flex flex-col items-center">
@@ -226,7 +125,7 @@ export default function Home() {
               src={ellipse12}
               alt="Custom Cooking"
             />
-            <div className="text-lg text-center">Custom Cooking</div>
+            <div className="text-lg text-center dark:text-white">Custom Cooking</div>
           </div>
 
           <div className="flex flex-col items-center">
@@ -235,11 +134,12 @@ export default function Home() {
               src={ellipse13}
               alt="Diet Plan"
             />
-            <div className="text-lg">Diet Plan</div>
+            <div className="text-lg dark:text-white">Diet Plan</div>
           </div>
+
           <div className="flex flex-col items-center">
             <img className="w-[65px] h-[65px]" src={ellipse14} alt="Saved" />
-            <div className="text-lg">Saved</div>
+            <div className="text-lg dark:text-white">Saved</div>
           </div>
         </div>
       </div>
