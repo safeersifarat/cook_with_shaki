@@ -29,3 +29,40 @@ export const getRecipes = async (req, res) => {
     res.status(500).json({ message: 'Error fetching recipes', error });
   }
 };
+
+// Update Recipe by ID
+export const updateRecipe = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updatedRecipe = await Recipe.findByIdAndUpdate(id.trim(), req.body, { new: true });
+
+    if (!updatedRecipe) {
+      return res.status(404).json({ message: 'Recipe not found' });
+    }
+
+    res.json({ message: 'Recipe updated successfully', updatedRecipe });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating recipe', error });
+  }
+};
+
+// Delete Recipe
+export const deleteRecipe = async (req, res) => {
+  let { id } = req.params;
+
+  // Clean up the ID by trimming any extra spaces or newlines
+  id = id.trim();
+
+  try {
+    const recipe = await Recipe.findByIdAndDelete(id);
+    
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+    
+    res.status(200).json({ message: "Recipe deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting recipe", error });
+  }
+};

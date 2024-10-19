@@ -27,5 +27,5 @@ mongoose
 
 // Use routes
 app.use("/api/auth", authRoutes);
-app.use("/api/recipes", recipeRoutes);
+app.use("/api/recipe", recipeRoutes); // This should work for /api/recipe
 app.use("/api/users", userRoutes);
