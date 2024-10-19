@@ -5,6 +5,7 @@ import { authMiddleware } from '../middlewares/authMiddleware.js';  // For prote
 
 const router = express.Router();
 
+
 // Create a new recipe
 router.post('/create', authMiddleware, createRecipe);
 

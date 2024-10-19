@@ -1,14 +1,14 @@
 import express from "express";
 import mongoose from "mongoose";
-import authRoutes from "./routes/auth.js"; // Adjust path if necessary
-import recipeRoutes from "./routes/recipe.js"; // Adjust path if necessary
-import userRoutes from "./routes/users.js"; // Adjust path if necessary
+import authRoutes from "./routes/auth.js";
+import recipeRoutes from "./routes/recipe.js";
+import userRoutes from "./routes/users.js";
 
 // Initialize express app
 const app = express();
 
-// Middleware
-app.use(express.json()); // Parse JSON bodies
+// Middleware to parse JSON bodies
+app.use(express.json()); 
 
 // Connect to MongoDB
 mongoose
@@ -27,5 +27,6 @@ mongoose
 
 // Use routes
 app.use("/api/auth", authRoutes);
-app.use("/api/recipe", recipeRoutes); // This should work for /api/recipe
+app.use("/api/recipe", recipeRoutes);  // This registers recipe routes under /api/recipe
 app.use("/api/users", userRoutes);
+
