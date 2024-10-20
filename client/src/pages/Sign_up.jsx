@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import facebook1 from "../assets/facebook-1.png";
 import google1 from "../assets/google-1.png";
 import twitter1 from "../assets/twitter-1.png";
@@ -6,14 +6,18 @@ import food1 from "../assets/food1.jpg"; // Add your food image paths
 import food2 from "../assets/food2.jpg";
 import food3 from "../assets/food3.jpg";
 import food4 from "../assets/food4.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios"; // For API calls
 
-const InputField = ({ placeholder, type }) => {
+const InputField = ({ placeholder, type, name, value, onChange }) => {
   return (
     <input
       className="w-full p-2 my-3 border border-gray-300 rounded-md"
       type={type}
       placeholder={placeholder}
+      name={name}
+      value={value}
+      onChange={onChange}
     />
   );
 };
@@ -31,10 +35,45 @@ const Button = ({ onClick, children, type }) => {
 };
 
 export default function Sign_up() {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
+  const navigate = useNavigate();
+   
+  // State for form inputs
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: ""
+  });
+  
+  const [error, setError] = useState("");
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  // Replace this with your new handleSubmit function
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:3000/api/auth/register", formData);
+      navigate("/home"); // If successful, navigate to home
+    } catch (err) {
+      // Enhanced error handling for better debugging
+      if (err.response) {
+        setError(err.response.data.message || "Registration failed. Please try again.");
+      } else if (err.request) {
+        setError("No response from server. Please check your backend connection.");
+      } else {
+        setError("Error: " + err.message);
+      }
+    }
+  };
+  
+
+  // Your component's return statement...
+
 
   return (
     <div className="relative flex justify-center items-center h-screen bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500">
@@ -75,17 +114,41 @@ export default function Sign_up() {
         <h2 className="text-2xl text-gray-600 text-center mb-6">
           Create Your Account
         </h2>
+        
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
         <form onSubmit={handleSubmit} className="space-y-4">
-          <InputField placeholder="Enter Your Username" type="text" />
-          <InputField placeholder="Enter Your Email" type="email" />
-          <InputField placeholder="Enter Your Phone Number" type="tel" />
-          <InputField placeholder="Enter Your Password" type="password" />
+          <InputField
+            placeholder="Enter Your Username"
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+          />
+          <InputField
+            placeholder="Enter Your Email"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+          />
+          <InputField
+            placeholder="Enter Your Phone Number"
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleInputChange}
+          />
+          <InputField
+            placeholder="Enter Your Password"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+          />
+
           <div className="flex justify-center">
-            <Link to="/home">
-              <Button className="w-full max-w-md py-4 mt-6 text-xl font-bold text-white rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-                Sign Up
-              </Button>
-            </Link>
+            <Button type="submit">Sign Up</Button>
           </div>
         </form>
 
@@ -97,6 +160,7 @@ export default function Sign_up() {
             <img src={twitter1} alt="Twitter" className="w-10 h-10" />
           </div>
         </div>
+        
         <p className="mt-6 text-center">
           Already have an account?{" "}
           <Link to="/signin">
@@ -105,6 +169,7 @@ export default function Sign_up() {
             </span>
           </Link>
         </p>
+
         <div className="mt-8 text-center">
           <h3 className="text-2xl font-bold text-gray-800">
             MAKE YOUR DAY DELICIOUS!

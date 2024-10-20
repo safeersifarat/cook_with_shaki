@@ -3,18 +3,30 @@ import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
 import recipeRoutes from "./routes/recipe.js";
 import userRoutes from "./routes/users.js";
+import dotenv from "dotenv";
+import cors from 'cors';
+
+const app = express();
+app.use(express.json());
+
+
+app.use(cors());
+
+// Load env variables from key.env
+dotenv.config({ path: './api/key.env' }); // Make sure the path is correct
+
+
+ 
 
 // Initialize express app
-const app = express();
+
 
 // Middleware to parse JSON bodies
-app.use(express.json()); 
+
 
 // Connect to MongoDB
 mongoose
-  .connect(
-    "mongodb+srv://safeer:7989@cook-with-shaki.btw6x.mongodb.net/cook-with-shaki?retryWrites=true&w=majority&appName=cook-with-shaki"
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("MongoDB is connected");
     app.listen(3000, () => {
@@ -27,6 +39,5 @@ mongoose
 
 // Use routes
 app.use("/api/auth", authRoutes);
-app.use("/api/recipe", recipeRoutes);  // This registers recipe routes under /api/recipe
+app.use("/api/recipe", recipeRoutes);
 app.use("/api/users", userRoutes);
-
