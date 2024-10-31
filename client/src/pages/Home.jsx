@@ -48,8 +48,18 @@ export default function Home() {
           </button>
         </div>
         <div className="grid grid-cols-6 gap-4 mt-4">
-          {[popularDish1, popularDish2, popularDish1, popularDish2, popularDish1, popularDish2].map((dish, index) => (
-            <div key={index} className="relative w-full h-40 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+          {[
+            popularDish1,
+            popularDish2,
+            popularDish1,
+            popularDish2,
+            popularDish1,
+            popularDish2,
+          ].map((dish, index) => (
+            <div
+              key={index}
+              className="relative w-full h-40 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden"
+            >
               <img
                 src={dish}
                 alt={`Popular Dish ${index + 1}`}
@@ -63,7 +73,9 @@ export default function Home() {
       {/* Namma Kerala Section */}
       <div className="mt-10 px-20">
         <div className="flex justify-between items-center w-full">
-          <h2 className="text-3xl font-semibold dark:text-white">Namma Kerala</h2>
+          <h2 className="text-3xl font-semibold dark:text-white">
+            Namma Kerala
+          </h2>
           <button className="flex items-center font-semibold bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 bg-clip-text text-transparent">
             <span className="mr-1">Explore More</span>
             <svg
@@ -82,8 +94,18 @@ export default function Home() {
           </button>
         </div>
         <div className="grid grid-cols-6 gap-4 mt-4">
-          {[keralaDish1, keralaDish2, keralaDish1, keralaDish2, keralaDish1, keralaDish2].map((dish, index) => (
-            <div key={index} className="relative w-full h-40 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+          {[
+            keralaDish1,
+            keralaDish2,
+            keralaDish1,
+            keralaDish2,
+            keralaDish1,
+            keralaDish2,
+          ].map((dish, index) => (
+            <div
+              key={index}
+              className="relative w-full h-40 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden"
+            >
               <img
                 src={dish}
                 alt={`Kerala Dish ${index + 1}`}
@@ -98,16 +120,18 @@ export default function Home() {
       <div className="mt-10 px-20">
         <h2 className="text-3xl font-semibold dark:text-white">Cuisines</h2>
         <div className="grid grid-cols-6 gap-4 mt-4">
-          {['Indian', 'Chinese', 'Asian', 'American', 'Mexican', 'Thai'].map((cuisine, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <img
-                className="w-[138px] h-[138px] rounded-full object-cover"
-                src={popularDish1}
-                alt={`Cuisine ${index + 1}`}
-              />
-              <div className="text-lg mt-2 dark:text-white">{cuisine}</div>
-            </div>
-          ))}
+          {["Indian", "Chinese", "Asian", "American", "Mexican", "Thai"].map(
+            (cuisine, index) => (
+              <div key={index} className="flex flex-col items-center">
+                <img
+                  className="w-[138px] h-[138px] rounded-full object-cover"
+                  src={popularDish1}
+                  alt={`Cuisine ${index + 1}`}
+                />
+                <div className="text-lg mt-2 dark:text-white">{cuisine}</div>
+              </div>
+            )
+          )}
         </div>
       </div>
 
@@ -125,7 +149,9 @@ export default function Home() {
               src={ellipse12}
               alt="Custom Cooking"
             />
-            <div className="text-lg text-center dark:text-white">Custom Cooking</div>
+            <div className="text-lg text-center dark:text-white">
+              Custom Cooking
+            </div>
           </div>
 
           <div className="flex flex-col items-center">

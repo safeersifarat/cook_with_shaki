@@ -11,10 +11,10 @@ export default function Sign_in() {
 
   // State for email and password
   const [formData, setFormData] = useState({
-    email: '', // Change from 'name' to 'email'
-    password: ''
+    email: "", // Change from 'name' to 'email'
+    password: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -26,16 +26,19 @@ export default function Sign_in() {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent form from reloading the page
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', formData);
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        formData
+      );
       const { token } = response.data;
 
       // Save token to local storage
-      localStorage.setItem('token', token);
+      localStorage.setItem("token", token);
 
       // Redirect to the home page
-      navigate('/home');
+      navigate("/home");
     } catch (err) {
-      setError('Invalid email or password');
+      setError("Invalid email or password");
       console.error(err);
     }
   };
@@ -107,7 +110,9 @@ export default function Sign_in() {
 
         <div className="w-1/2 flex items-center justify-center bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 rounded-3xl">
           <div className="text-center">
-            <h1 className="text-white text-5xl font-bold mb-6">Welcome To Login</h1>
+            <h1 className="text-white text-5xl font-bold mb-6">
+              Welcome To Login
+            </h1>
             <p className="text-white text-2xl mb-6">Don’t have an account?</p>
             <Button
               className="border-white bg-transparent text-white py-4 px-8

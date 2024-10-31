@@ -5,67 +5,96 @@ import { useNavigate } from "react-router-dom";
 export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
-    username: "",
+    name: "",
     phone: "",
     image: "",
   });
   const [updatedData, setUpdatedData] = useState({
-    username: "",
+    name: "",
     phone: "",
   });
+  const [profilePic, setProfilePic] = useState(null);
   const navigate = useNavigate();
 
   // Fetch user profile on component mount
   useEffect(() => {
-    // Assuming token is stored in localStorage
     const token = localStorage.getItem("token");
 
     if (!token) {
-      navigate("/signin"); // Redirect if no token
+      navigate("/signin");
     } else {
       axios
-        .get("http://localhost:3000/api/users/profile", {
+        .get("http://localhost:3000/api/auth/profile", {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
-          setProfileData(res.data.user);
+          setProfileData({
+            ...res.data.user,
+            image: `http://localhost:3000/uploads/${res.data.user.image}`,
+          });
           setUpdatedData({
-            username: res.data.user.name,
+            name: res.data.user.name,
             phone: res.data.user.phone,
           });
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => console.error(err));
     }
   }, [navigate]);
 
-  // Toggle editing mode
   const handleEditClick = () => {
     setIsEditing(!isEditing);
   };
 
-  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUpdatedData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  // Handle form submission for updating profile
-  const handleSave = () => {
-    const token = localStorage.getItem("token");
+  const handleFileChange = (e) => {
+    setProfilePic(e.target.files[0]);
+  };
 
-    axios
-      .put("http://localhost:3000/api/users/profile", updatedData, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        setProfileData(res.data.updatedUser); // Update profileData with updated info
-        setIsEditing(false); // Exit edit mode
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleSave = async () => {
+    const token = localStorage.getItem("token");
+    const isValidPhone = /^[0-9]{10}$/;
+
+    if (!isValidPhone.test(updatedData.phone)) {
+      alert("Invalid phone number format");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("name", updatedData.name);
+      formData.append("phone", updatedData.phone);
+
+      if (profilePic) {
+        formData.append("profilePic", profilePic);
+      }
+
+      const response = await axios.put(
+        "http://localhost:3000/api/auth/profile",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setProfileData((prev) => ({
+        ...prev,
+        name: response.data.updatedUser.name,
+        phone: response.data.updatedUser.phone,
+        image: `http://localhost:3000/uploads/${response.data.updatedUser.image}?t=${new Date().getTime()}`,
+      }));
+
+      setIsEditing(false);
+    } catch (err) {
+      console.error("Error updating profile:", err);
+      alert("Failed to update profile. Please try again.");
+    }
   };
 
   return (
@@ -73,14 +102,15 @@ export default function Profile() {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
           <img
-            src={profileData.image || "default_profile_image_url"} // Placeholder if no image
+            src={
+              profileData.image || "default_profile_image_url"
+            }
             alt="Profile"
             className="rounded-full w-24 h-24"
           />
+
           <div className="ml-4">
-            <h2 className="text-2xl font-bold">
-              {profileData.username || "Username"}
-            </h2>
+            <h2 className="text-2xl font-bold">{profileData.name || "name"}</h2>
             <p className="text-lg">
               Phone: {profileData.phone || "Phone Number"}
             </p>
@@ -101,12 +131,13 @@ export default function Profile() {
           <div className="space-y-4">
             <input
               type="text"
-              name="username"
-              value={updatedData.username}
+              name="name"
+              value={updatedData.name}
               onChange={handleChange}
-              placeholder="Edit Username"
+              placeholder="Edit Name"
               className="border p-2 w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             />
+
             <input
               type="text"
               name="phone"
@@ -114,6 +145,11 @@ export default function Profile() {
               onChange={handleChange}
               placeholder="Edit Phone Number"
               className="border p-2 w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            />
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="w-full p-2 dark:bg-gray-700 dark:border-gray-600"
             />
           </div>
         )}
@@ -138,11 +174,12 @@ export default function Profile() {
             Terms and Conditions
           </a>
           <a
-            href="/logout"
+            href="/home"
             className="block border p-2 text-center dark:bg-gray-800 dark:border-gray-700"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               localStorage.removeItem("token");
-              navigate("/signin");
+              navigate("/home");
             }}
           >
             Logout

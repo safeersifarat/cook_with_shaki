@@ -36,15 +36,15 @@ const Button = ({ onClick, children, type }) => {
 
 export default function Sign_up() {
   const navigate = useNavigate();
-   
+
   // State for form inputs
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    password: ""
+    password: "",
   });
-  
+
   const [error, setError] = useState("");
 
   // Handle form input changes
@@ -57,23 +57,28 @@ export default function Sign_up() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/api/auth/register", formData);
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/register",
+        formData
+      );
       navigate("/home"); // If successful, navigate to home
     } catch (err) {
       // Enhanced error handling for better debugging
       if (err.response) {
-        setError(err.response.data.message || "Registration failed. Please try again.");
+        setError(
+          err.response.data.message || "Registration failed. Please try again."
+        );
       } else if (err.request) {
-        setError("No response from server. Please check your backend connection.");
+        setError(
+          "No response from server. Please check your backend connection."
+        );
       } else {
         setError("Error: " + err.message);
       }
     }
   };
-  
 
   // Your component's return statement...
-
 
   return (
     <div className="relative flex justify-center items-center h-screen bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500">
@@ -114,7 +119,7 @@ export default function Sign_up() {
         <h2 className="text-2xl text-gray-600 text-center mb-6">
           Create Your Account
         </h2>
-        
+
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -160,7 +165,7 @@ export default function Sign_up() {
             <img src={twitter1} alt="Twitter" className="w-10 h-10" />
           </div>
         </div>
-        
+
         <p className="mt-6 text-center">
           Already have an account?{" "}
           <Link to="/signin">
