@@ -1,4 +1,3 @@
-// controllers/recipeController.js
 import Recipe from "../models/Recipe.js";
 
 // Create Recipe
@@ -9,7 +8,7 @@ export const createRecipe = async (req, res) => {
     description,
     preparationTime,
     steps,
-    youtubeLink,
+    videoLink,
     ingredients,
     cuisine,
   } = req.body;
@@ -21,7 +20,7 @@ export const createRecipe = async (req, res) => {
       description,
       preparationTime,
       steps,
-      youtubeLink,
+      videoLink,
       ingredients,
       cuisine,
     });
@@ -48,6 +47,48 @@ export const getRecipes = async (req, res) => {
   }
 };
 
+// Get random recipes for the Popular section
+export const getRandomRecipes = async (req, res) => {
+  try {
+    const randomRecipes = await Recipe.aggregate([{ $sample: { size: 6 } }]);
+    console.log("Fetched random recipes:", randomRecipes); // Log the fetched recipes for debugging
+    res.json({ recipes: randomRecipes });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching random recipes", error });
+  }
+};
+
+
+// Get random Kerala recipes for the Namma Kerala section
+export const getKeralaRecipes = async (req, res) => {
+  try {
+    const keralaRecipes = await Recipe.aggregate([
+      { $match: { cuisine: "Indian", subCuisine: "Kerala" } },
+      { $sample: { size: 6 } }
+    ]);
+    res.json({ recipes: keralaRecipes });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching Kerala recipes", error });
+  }
+};
+
+// Get a specific recipe by ID
+export const getRecipeById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const recipe = await Recipe.findById(id);
+
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
+    res.json(recipe);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching recipe", error });
+  }
+};
+
 // Update Recipe by ID
 export const updateRecipe = async (req, res) => {
   const { id } = req.params;
@@ -71,7 +112,6 @@ export const updateRecipe = async (req, res) => {
 export const deleteRecipe = async (req, res) => {
   let { id } = req.params;
 
-  // Clean up the ID by trimming any extra spaces or newlines
   id = id.trim();
 
   try {

@@ -31,7 +31,10 @@ const recipeSchema = new mongoose.Schema({
     enum: ['Indian', 'American', 'Chinese', 'Asian', 'Mexican', 'Thai'],
     required: true,
   },
+  subCuisine: {
+    type: String,
+    enum: ['Kerala', 'Other'],  // Add any sub-cuisines you need
+  },
 });
-
 
 export default mongoose.model('Recipe', recipeSchema);
