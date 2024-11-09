@@ -8,40 +8,32 @@ import twitter1 from "../assets/twitter-1.png";
 
 export default function Sign_in() {
   const navigate = useNavigate();
-
-  // State for email and password
-  const [formData, setFormData] = useState({
-    email: "", // Change from 'name' to 'email'
-    password: "",
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
 
-  // Handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent form from reloading the page
+    e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        formData
-      );
-      const { token } = response.data;
-
-      // Save token to local storage
+      const response = await axios.post("http://localhost:3000/api/auth/login", formData);
+      const { token, role } = response.data;
       localStorage.setItem("token", token);
-
-      // Redirect to the home page
-      navigate("/home");
+  
+      // Navigate based on role
+      if (role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/home");
+      }
     } catch (err) {
       setError("Invalid email or password");
-      console.error(err);
     }
   };
+  
 
   return (
     <div className="flex justify-center items-center w-full h-screen bg-white">

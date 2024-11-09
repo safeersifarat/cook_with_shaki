@@ -51,13 +51,17 @@ export const getRecipes = async (req, res) => {
 export const getRandomRecipes = async (req, res) => {
   try {
     const randomRecipes = await Recipe.aggregate([{ $sample: { size: 6 } }]);
-    console.log("Fetched random recipes:", randomRecipes); // Log the fetched recipes for debugging
+
+    // Log only if the environment is set to development
+    if (process.env.NODE_ENV === 'development') {
+      console.log("Fetched random recipes for debugging:", randomRecipes);
+    }
+
     res.json({ recipes: randomRecipes });
   } catch (error) {
     res.status(500).json({ message: "Error fetching random recipes", error });
   }
 };
-
 
 // Get random Kerala recipes for the Namma Kerala section
 export const getKeralaRecipes = async (req, res) => {

@@ -68,24 +68,27 @@ const DishPage = () => {
       </div>
 
       {/* Ingredients Section */}
-      <div
-        style={{
-          padding: "20px",
-          border: "1px solid #ddd",
-          borderRadius: "5px",
-        }}
-      >
-        <h2>Ingredients</h2>
-        <ul>
-          {recipe.ingredients && recipe.ingredients.length > 0 ? (
-            recipe.ingredients.map((ingredient, index) => (
-              <li key={index}>{ingredient}</li>
-            ))
-          ) : (
-            <p>No ingredients listed</p>
-          )}
-        </ul>
-      </div>
+<div
+  style={{
+    padding: "20px",
+    border: "1px solid #ddd",
+    borderRadius: "5px",
+  }}
+>
+  <h2>Ingredients</h2>
+  <ul>
+    {recipe.ingredients && recipe.ingredients.length > 0 ? (
+      recipe.ingredients.map((ingredient, index) => (
+        <li key={index}>
+          {ingredient.name} - {ingredient.amount} {ingredient.unit}
+        </li>
+      ))
+    ) : (
+      <p>No ingredients listed</p>
+    )}
+  </ul>
+</div>
+
 
       {/* Description Section */}
       <div

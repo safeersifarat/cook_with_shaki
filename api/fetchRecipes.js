@@ -10,7 +10,6 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const fetchRecipes = async () => {
     try {
-        // Set timeout and make request to Spoonacular API
         const response = await axios.get(`https://api.spoonacular.com/recipes/random`, {
             params: { apiKey: spoonacularApiKey, number: 10 },
             timeout: 5000  // 5-second timeout
@@ -22,13 +21,20 @@ const fetchRecipes = async () => {
         const validSubCuisines = ['Kerala', 'North Indian', 'South Indian', 'Punjabi', 'Mughlai'];
 
         const formattedRecipes = recipes.map(recipe => {
-            const cuisine = validCuisines.includes(recipe.cuisines[0]) ? recipe.cuisines[0] : 'Indian'; 
+            const cuisine = validCuisines.includes(recipe.cuisines[0]) ? recipe.cuisines[0] : 'Indian';
             const subCuisine = validSubCuisines.includes(recipe.cuisines[0]) ? recipe.cuisines[0] : 'Kerala';
 
             if (!recipe.image || !validCuisines.includes(cuisine)) {
                 console.warn('Skipping recipe due to missing required fields or invalid cuisine:', recipe.title);
                 return null;
             }
+
+            const ingredients = recipe.extendedIngredients?.map(ingredient => ({
+                name: ingredient.name,
+                amount: ingredient.amount,
+                unit: ingredient.unit,
+                quantity: `${ingredient.amount} ${ingredient.unit}` // Combine amount and unit into a single quantity field
+            })) || [];
 
             return {
                 name: recipe.title,
@@ -39,7 +45,8 @@ const fetchRecipes = async () => {
                 videoLink: recipe.sourceUrl,
                 quantity: recipe.servings,
                 cuisine,
-                subCuisine
+                subCuisine,
+                ingredients // Structured ingredients with name, amount, unit, and quantity
             };
         }).filter(recipe => recipe !== null);
 
@@ -60,7 +67,6 @@ const fetchRecipes = async () => {
     }
 };
 
-// Run fetchRecipes initially
 fetchRecipes().then(() => mongoose.connection.close());
 
 // Schedule to run every day at midnight
